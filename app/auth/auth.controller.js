@@ -6,6 +6,7 @@ import { hash } from 'bcryptjs'
 import asyncHandler from 'express-async-handler'
 
 import { prisma } from '../prisma.js'
+import { UserFields } from '../utils/user.utils.js'
 
 import { generateToken } from './generate-token.js'
 
@@ -47,7 +48,8 @@ export const registerUser = asyncHandler(async (req, res) => {
 			email,
 			password: hashedPassword,
 			name: faker.name.fullName()
-		}
+		},
+		select: UserFields
 	})
 
 	// Генерация токена после создания пользователя
