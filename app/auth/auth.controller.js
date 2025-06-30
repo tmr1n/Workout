@@ -25,9 +25,11 @@ export const registerUser = asyncHandler (async (req, res) => {
 
 	const isHaveUser = await prisma.user.findUnique({
 		where: {
-			email
+			email, password: await hash(password), name: faker.name.fullName()
 		}
 	})
+
+	const token = generateToken()
 
 	if (isHaveUser) {
 		res.status(400)
