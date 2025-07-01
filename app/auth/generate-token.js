@@ -5,7 +5,7 @@ export const generateToken = userID =>
 		{
 			userID
 		},
-		process.env.ACCESS_TOKEN,
+		process.env.JWT_SECRET,
 		{
 			expiresIn: '10d'
 		}
