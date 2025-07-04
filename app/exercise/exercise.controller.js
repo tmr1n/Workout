@@ -27,3 +27,20 @@ export const getExercises = asyncHandler(async (req, res) => {
 
 	res.json(exercises)
 })
+
+//@desc Update exercise
+//@route PUT /api/exercises
+//@access Private
+export const updateExercise = asyncHandler(async (req, res) => {
+	const { name, times, iconPath } = req.body
+
+	const exercise = await prisma.exercise.create({
+		data: {
+			name,
+			times,
+			iconPath
+		}
+	})
+
+	res.json(exercise)
+})
