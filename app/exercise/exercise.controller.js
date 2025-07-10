@@ -29,18 +29,24 @@ export const getExercises = asyncHandler(async (req, res) => {
 })
 
 //@desc Update exercise
-//@route PUT /api/exercises
+//@route PUT /api/exercises/:id
 //@access Private
 export const updateExercise = asyncHandler(async (req, res) => {
 	const { name, times, iconPath } = req.body
 
-	const exercise = await prisma.exercise.create({
-		data: {
-			name,
-			times,
-			iconPath
-		}
-	})
-
-	res.json(exercise)
+	try {
+		const exercise = await prisma.exercise.update({
+			where: {
+				id: +req.params.id //+ преобразует строку в число
+			},
+			data: {
+				name,
+				times,
+				iconPath
+			}
+		})
+		res.json(exercise)
+	} catch (error) {
+		console.log(error)
+	}
 })
