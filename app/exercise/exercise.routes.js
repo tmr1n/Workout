@@ -9,6 +9,7 @@ import {
 	updateExercise
 } from './exercise.controller.js'
 import { createNewExerciseLog } from './log/exercise-log.controller.js'
+import { getExerciseLog } from './log/get-exercise-log.controller.js'
 
 const router = express.Router()
 
@@ -19,7 +20,10 @@ router
 	.put(protect, updateExercise)
 	.delete(protect, deleteExercise)
 
-router.route('/log/:exerciseId').post(protect, createNewExerciseLog)
+router
+	.route('/log/:id')
+	.post(protect, createNewExerciseLog)
+	.get(protect, getExerciseLog)
 
 export default router
 //localhost:4200/api/exercises
