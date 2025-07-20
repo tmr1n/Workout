@@ -14,7 +14,9 @@ export const getExerciseLog = asyncHandler(async (req, res) => {
 		},
 		include: {
 			exercise: true,
-			times: true
+			times: {
+				orderBy: {}
+			}
 		}
 	})
 
@@ -27,11 +29,10 @@ export const getExerciseLog = asyncHandler(async (req, res) => {
 		where: {
 			exerciseId: exerciseLog.exerciseId,
 			userId: req.user.id,
-			isCompleted: true
+			isComplete: true
 		},
 		orderBy: {
-			createdAt: 'desc',
-			times: true
+			createdAt: 'desc'
 		},
 		include: {
 			times: true
