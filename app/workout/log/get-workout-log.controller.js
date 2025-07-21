@@ -4,8 +4,7 @@
 import asyncHandler from 'express-async-handler'
 
 import { prisma } from '../../prisma.js'
-
-import { addPrevValues } from './add-prev-values.util.js'
+import { calculateMinute } from '../calculate-minute.js'
 
 export const getWorkoutLog = asyncHandler(async (req, res) => {
 	const workoutLog = await prisma.workoutLog.findUnique({
@@ -13,7 +12,11 @@ export const getWorkoutLog = asyncHandler(async (req, res) => {
 			id: +req.params.id
 		},
 		include: {
-			workout: true,
+			workout: {
+				include: {
+					exercises: true
+				}
+			},
 			exerciseLogs: {
 				orderBy: {
 					id: 'asc'
@@ -32,6 +35,6 @@ export const getWorkoutLog = asyncHandler(async (req, res) => {
 
 	res.json({
 		...workoutLog,
-		times: addPrevValues(workoutLog, prevWorkoutLog)
+		minute: calculateMinute(workoutLog.workout.exercises.length)
 	})
 })

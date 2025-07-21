@@ -2,6 +2,8 @@ import express from 'express'
 
 import { protect } from '../auth/middleware/auth.middleware.js'
 
+import { getWorkoutLog } from './log/get-workout-log.controller.js'
+import { updateCompleteWorkoutLog } from './log/update-workout-log.controller.js'
 import { createNewWorkoutLog } from './log/workout-log.controller.js'
 import {
 	createNewWorkout,
@@ -21,7 +23,11 @@ router
 	.put(protect, updateWorkout)
 	.delete(protect, deleteWorkout)
 
-router.route('/log/:id').post(protect, createNewWorkoutLog)
+router
+	.route('/log/:id')
+	.post(protect, createNewWorkoutLog)
+	.get(protect, getWorkoutLog)
 
+router.route('/log/complete/:id').patch(protect, updateCompleteWorkoutLog)
 export default router
 //localhost:4200/api/workouts

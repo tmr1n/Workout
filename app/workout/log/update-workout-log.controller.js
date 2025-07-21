@@ -1,45 +1,20 @@
-// @desc Update workout log time
-// @route PUT /api/workouts/log/time/:id
+// @desc Update workout log completed
+// @route PATCH /api/workouts/log/completed/:id
 // @access Private
 import asyncHandler from 'express-async-handler'
 
 import { prisma } from '../../prisma.js'
 
-export const updateWorkoutLogTime = asyncHandler(async (req, res) => {
-	const { weight, repeat, isComplete } = req.body
-	try {
-		const workoutLogTime = await prisma.workoutLogTime.update({
-			where: {
-				id: +req.params.id
-			},
-			data: {
-				weight,
-				repeat,
-				isComplete
-			}
-		})
-
-		res.json(workoutLogTime)
-	} catch (error) {
-		res.status(404)
-		throw new Error('Workout log not found')
-	}
-})
-
-// @desc Update status of complete workout log
-// @route PATCH /api/workouts/log/complete/:id
-// @access Private
-export const completeWorkoutLog = asyncHandler(async (req, res) => {
-	const { isComplete } = req.body
+export const updateCompleteWorkoutLog = asyncHandler(async (req, res) => {
+	const logId = +req.params.id
 	try {
 		const workoutLog = await prisma.workoutLog.update({
 			where: {
-				id: +req.params.id
+				id: logId
 			},
 			data: {
-				isComplete
-			},
-			include: { exercise: true, workoutLog: true }
+				isComplete: true
+			}
 		})
 
 		res.json(workoutLog)
