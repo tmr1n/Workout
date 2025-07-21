@@ -13,9 +13,9 @@ export const getExerciseLog = asyncHandler(async (req, res) => {
 			id: +req.params.id
 		},
 		include: {
-			exercise: true,
+			exerciseLogs: true,
 			times: {
-				orderBy: {}
+				orderBy: { id: 'asc' }
 			}
 		}
 	})
